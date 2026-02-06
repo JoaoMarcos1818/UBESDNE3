@@ -1,0 +1,475 @@
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DNE Digital</title>
+
+<!-- Fonte Roboto Padrão Android -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* Reset Básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --bg-app: #cfe7e5;
+  --card-bg: #f0f8f8;
+  --white: #ffffff;
+  --blue-main: #1f4ed8;
+  --blue-dark: #1e40af;
+  --text-black: #1f2937;
+  --text-grey: #6b7280;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 10px;
+}
+
+.app {
+  width: 100%;
+  max-width: 390px;
+  background: var(--bg-app);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+  position: relative;
+  min-height: 750px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- TELA DE ADMINISTRAÇÃO --- */
+.admin-screen {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  z-index: 200;
+  flex-direction: column;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: -8px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-black);
+  margin-left: 8px;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 20px 16px;
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-black);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  font-size: 16px;
+  color: var(--text-black);
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+}
+
+.divider-line {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 20px 0;
+}
+
+/* --- TELA PRINCIPAL --- */
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 20px 12px 20px;
+}
+
+.logo-dne {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--blue-main);
+  letter-spacing: 1px;
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.header-titles span {
+  font-size: 14px;
+  color: var(--text-black);
+  font-weight: 500;
+}
+
+.top-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-hamburguer {
+  font-size: 26px;
+  color: var(--text-black);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Card */
+.card {
+  background: var(--card-bg);
+  margin: 16px 16px 0 16px;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.6);
+  position: relative;
+  z-index: 1;
+}
+
+.card-top-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* Foto */
+.photo-box {
+  width: 120px;
+  height: 160px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* QR Code */
+.qr-container {
+  flex: 1;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+#qrcode img { display: block; }
+
+.qr-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--text-grey);
+  font-weight: 600;
+  margin-top: 8px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.qr-number {
+  font-size: 15px;
+  color: var(--text-black);
+  font-weight: 700;
+  margin-top: 2px;
+  font-family: monospace;
+}
+
+/* Lista de Informações - AJUSTADO PARA FICAR "MAIS JUNTO" */
+.info-list {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.info-row {
+  display: flex;
+  font-size: 14px;
+  line-height: 1.4; /* Linha mais apertada */
+  color: var(--text-black);
+  margin-bottom: 2px; /* Espaço entre linhas reduzido */
+  align-items: baseline; /* Alinha a base do texto */
+}
+
+.info-label {
+  color: var(--text-grey);
+  font-weight: 500;
+  /* AJUSTE PRINCIPAL: Reduzi a largura mínima para trazer o texto para mais perto */
+  min-width: 105px; 
+  margin-right: 6px; /* Espaço pequeno entre rótulo e valor */
+  flex-shrink: 0;
+}
+
+/* Botões */
+.actions-area {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  height: 54px;
+  border-radius: 30px;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.1s;
+}
+
+.btn:active { transform: scale(0.98); }
+
+.btn-primary {
+  background: var(--blue-main);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(31, 78, 216, 0.25);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--blue-main);
+  border: 1px solid rgba(31, 78, 216, 0.2);
+}
+
+.google-wallet-btn {
+  margin: 0 16px 24px 16px;
+  height: 52px;
+  border-radius: 28px;
+  background: #000000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- TELA DE CONFIGURAÇÕES -->
+  <div class="admin-screen" id="adminScreen">
+    <div class="admin-header">
+      <button class="back-btn" id="backBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <div class="admin-title">Administração do aplicativo</div>
+    </div>
+
+    <div class="admin-content">
+      <div class="section-title">Suporte</div>
+      <div class="menu-item">Fale conosco <span style="color:#ccc">›</span></div>
+      <div class="menu-item">Versão atual <span style="color:#ccc">2.9.64</span></div>
+      <div class="menu-item">Política de privacidade <span style="color:#ccc">›</span></div>
+      <div class="menu-item">Avalie nosso App <span style="color:#ccc">›</span></div>
+
+      <div class="divider-line"></div>
+
+      <div class="section-title">Preferência</div>
+      <div class="menu-item">Página inicial <span style="color:#ccc">›</span></div>
+      <div class="menu-item">Desbloqueio nativo do aparelho <span style="color:#ccc">○</span></div>
+      <div class="menu-item">Gerar DNE Digital para wallet <span style="color:#ccc">›</span></div>
+      <div class="menu-item">Indicar DNE Digital <span style="color:#ccc">›</span></div>
+      <div class="menu-item" style="color:#d32f2f;">Sair <span style="color:#d32f2f">›</span></div>
+    </div>
+  </div>
+
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="logo-dne">DNE</div>
+    <div class="header-titles">
+      <span>CARTEIRA NACIONAL</span>
+      <span>DE ESTUDANTE</span>
+    </div>
+
+    <div class="top-right">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <div class="menu-hamburguer" id="menuBtn">☰</div>
+    </div>
+  </header>
+
+  <!-- CARTÃO -->
+  <div class="card">
+    <div class="card-top-row">
+
+      <!-- FOTO (Link atualizado) -->
+      <div class="photo-box">
+        <img src="assets/JOAO FOTO.png" alt="Foto" alt="Foto do Estudante" id="studentPhoto">
+      </div>
+
+      <!-- QR CODE -->
+      <div class="qr-container">
+        <div id="qrcode"></div>
+        <div class="qr-label">Nº do Documento</div>
+        <div class="qr-number" id="docNumber">1282844829</div>
+      </div>
+
+    </div>
+
+    <!-- DADOS (Alinhados juntos) -->
+    <div class="info-list">
+      <div class="info-row">
+        <span class="info-label">Nome:</span>
+        <span class="info-value">JOAO MARCOS SILVA LIMA</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Instituição:</span>
+        <span class="info-value">Etec Jose Rocha Mendes</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Curso:</span>
+        <span class="info-value">Automação Industrial</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">CPF:</span>
+        <span class="info-value">099.445.445-74</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Data Nasc.:</span>
+        <span class="info-value">13/05/2008</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Nº Bilhete:</span>
+        <span class="info-value">1282844829</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÕES -->
+  <div class="actions-area">
+    <button class="btn btn-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+      </svg>
+      Recarga de Transporte
+    </button>
+    <button class="btn btn-secondary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+      Informações
+    </button>
+  </div>
+
+  <!-- WALLET -->
+  <button class="google-wallet-btn">
+    <svg width="20" height="20" viewBox="0 0 24 24">
+       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+       <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+       <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.84z" fill="#FBBC05"/>
+       <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Adicionar à Carteira do Google
+  </button>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+const docNum = document.getElementById('docNumber').innerText;
+new QRCode(document.getElementById("qrcode"), {
+  text: docNum + "-VALIDACAO",
+  width: 90,
+  height: 90,
+  colorDark: "#000000",
+  colorLight: "#ffffff",
+  correctLevel: QRCode.CorrectLevel.H
+});
+
+const menuBtn = document.getElementById('menuBtn');
+const backBtn = document.getElementById('backBtn');
+const adminScreen = document.getElementById('adminScreen');
+
+menuBtn.addEventListener('click', () => {
+  adminScreen.style.display = 'flex';
+});
+
+backBtn.addEventListener('click', () => {
+  adminScreen.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
